@@ -26,18 +26,19 @@ namespace RoboticSpider
 
 
         public float followSpeed = 2.0f;
-        private float cameraStateSwitchSpeed = 2.0f;
+        private float cameraStateSwitchSpeed = 10.0f;
         private Player player;
         private Transform playerTr;
         private Vector3 offset;
         private Vector3 originalRotation;
+
         // Start is called before the first frame update
         void Start()
         {
             player = FindObjectOfType<Player>();
             playerTr = player.transform;
             offset = playerTr.position - transform.position;
-            originalRotation = transform.localEulerAngles;
+            originalRotation = transform.eulerAngles;
         }
 
         // Update is called once per frame
@@ -82,7 +83,8 @@ namespace RoboticSpider
             else if(newState == CameraState.Standard)
             {
                 transform.parent= null;
-                originalRotation = transform.localEulerAngles;
+                transform.eulerAngles = originalRotation;
+
             }
         }
 
@@ -91,10 +93,12 @@ namespace RoboticSpider
         {
             isSwitching = true;
             float distance = float.MaxValue;
-            while(distance <= 0.00001f)
+            
+            while(distance > 0.1f)
             {
-                transform.position = Vector3.Lerp(transform.position, player.PovTr.position, cameraStateSwitchSpeed * Time.deltaTime);
                 yield return null;
+                transform.position = Vector3.Lerp(transform.position, player.PovTr.position, cameraStateSwitchSpeed * Time.deltaTime);
+                distance = Mathf.Abs(Vector3.Distance(transform.position, player.PovTr.position));
             }
 
             transform.SetParent(player.PovTr);
