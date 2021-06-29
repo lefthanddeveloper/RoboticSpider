@@ -19,7 +19,7 @@ namespace RoboticSpider
 
 		[SerializeField] private LegTip[] legTips;
 
-		LayerMask climableLayer;
+		//LayerMask climableLayer;
 		Vector3 movingDir;
 		public Vector3 movingVelocity => movingDir * movingSpeed; //transform.Translate에서는 안쓰이고 pole에서 Spherecast 할때만 쓰임. Transform.Translate에선 Horizontal이 안쓰임
 
@@ -31,7 +31,7 @@ namespace RoboticSpider
 			//}
 			//averageRotationRadius /= legTips.Length;
 
-			climableLayer = LayerMask.GetMask("Climable");
+			//climableLayer = LayerMask.GetMask("Climable");
 		}
 
 

@@ -42,7 +42,7 @@ namespace RoboticSpider
             MeshCollider collider = this.gameObject.AddComponent<MeshCollider>();
             collider.sharedMesh = mesh;
 
-            this.gameObject.layer = LayerMask.NameToLayer("Climable");
+            this.gameObject.layer = LayerMask.NameToLayer("Web");
         }
 
         

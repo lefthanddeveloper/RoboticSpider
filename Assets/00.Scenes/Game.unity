@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.17444488, g: 0.21009506, b: 0.25434992, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -234,6 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ea0eb75d1959946b9c5e737f961bd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  climableLayer:
+    serializedVersion: 2
+    m_Bits: 640
   targetTr: {fileID: 424898024}
   poleTr: {fileID: 1927541318}
   movingThreshold: 0.25
@@ -1353,13 +1356,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516350511}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.045984767, y: -0.8799188, z: 0.08705209, w: 0.46481207}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 11.3, y: -124.31, z: 0}
 --- !u!1 &587381824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,6 +1887,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ea0eb75d1959946b9c5e737f961bd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  climableLayer:
+    serializedVersion: 2
+    m_Bits: 640
   targetTr: {fileID: 637160159}
   poleTr: {fileID: 1851499207}
   movingThreshold: 0.33
@@ -2270,6 +2276,36 @@ Transform:
   m_Father: {fileID: 4989477511548412}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1150121281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1150121282}
+  m_Layer: 0
+  m_Name: FlyContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1150121282
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150121281}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1401415326}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1164793725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2481,6 +2517,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ea0eb75d1959946b9c5e737f961bd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  climableLayer:
+    serializedVersion: 2
+    m_Bits: 640
   targetTr: {fileID: 1143093628}
   poleTr: {fileID: 694973484}
   movingThreshold: 0.33
@@ -2573,7 +2612,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1150121282}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2591,6 +2631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flyPrefab: {fileID: 6752555798265181790, guid: b57bb739a49b9874187f10abcdaf766c, type: 3}
   startNum_fly: 300
+  flyContainer: {fileID: 1150121282}
 --- !u!1 &1413058465
 GameObject:
   m_ObjectHideFlags: 0
@@ -3491,6 +3532,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ea0eb75d1959946b9c5e737f961bd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  climableLayer:
+    serializedVersion: 2
+    m_Bits: 640
   targetTr: {fileID: 1253940699}
   poleTr: {fileID: 38135792}
   movingThreshold: 0.25
@@ -5107,7 +5151,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8d140c75a26043f4097fe39b446c0d55, type: 2}
+  - {fileID: 2100000, guid: ca43d932bf8584d409b5f79b26d24e6d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -46,7 +46,7 @@ namespace RoboticSpider
 		//public float stepHeightMultiplier = 0.25f;
 		#endregion
 
-		LayerMask climableLayer;
+		public LayerMask climableLayer;
         private Vector3 stickPosition;
         private bool _isMoving;
         public bool isMoving => _isMoving;
@@ -62,7 +62,7 @@ namespace RoboticSpider
         Mover mover;
         private void Start() {
             stickPosition = transform.position;
-            climableLayer = LayerMask.GetMask("Climable");
+            //climableLayer = LayerMask.GetMask("Climable");
 
 			//lastStep = Time.time + stepCoolDown * stepOffset;
 			//targetTr.position = restingPosition;
