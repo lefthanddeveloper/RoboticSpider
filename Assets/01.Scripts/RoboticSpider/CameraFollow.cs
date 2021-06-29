@@ -116,8 +116,6 @@ namespace RoboticSpider
             transform.localPosition = Vector3.zero;
             transform.localEulerAngles = Vector3.zero;
 
-            // onCameraSwitched?.Invoke(newCameraState);
-
             completed?.Invoke();
 
         }

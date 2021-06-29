@@ -10,19 +10,16 @@ namespace RoboticSpider
 		public float rotatingSpeed = 1.0f;
 
 		[SerializeField] private LegTip[] legTips;
-		[SerializeField] private Transform[] targetPoses;
 
 		[SerializeField] private Transform earth;
 
 		LayerMask climableLayer;
-		Rigidbody rigid;
 		Vector3 movingDir;
-		public Vector3 movingVelocity => movingDir * movingSpeed;
+		public Vector3 movingVelocity => movingDir * movingSpeed; //transform.Translate에서는 안쓰이고 pole에서 Spherecast 할때만 쓰임. Transform.Translate에선 Horizontal이 안쓰임
 
 		private void Start()
 		{
 			climableLayer = LayerMask.GetMask("Climable");
-			rigid = GetComponent<Rigidbody>();
 		}
 		void Update()
 		{
@@ -33,7 +30,7 @@ namespace RoboticSpider
 			//Rotation
 			float horizontal = Input.GetAxisRaw("Horizontal");
 			
-			movingDir = new Vector3(0, 0, vertical);
+			movingDir = new Vector3(horizontal * 0.5f, 0, vertical);
 			// if (vertical != 0 || horizontal != 0)
 			{
 
@@ -72,20 +69,20 @@ namespace RoboticSpider
 			up /= legTips.Length;
 			avgDistance /= legTips.Length;
 
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up), 3.0f * Time.deltaTime);
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up), 30.0f * Time.deltaTime);
 			transform.Translate(0, avgDistance*0.5f, 0, Space.Self);
 		}
 		
 
-		private float GetAverageHeight()
-		{
-			float sum = 0;
-			for (int i = 0; i < targetPoses.Length; i++)
-			{
-				sum += targetPoses[i].transform.position.y;
-			}
-			return sum / targetPoses.Length;
-		}
+		// private float GetAverageHeight()
+		// {
+		// 	float sum = 0;
+		// 	for (int i = 0; i < targetPoses.Length; i++)
+		// 	{
+		// 		sum += targetPoses[i].transform.position.y;
+		// 	}
+		// 	return sum / targetPoses.Length;
+		// }
 	}
 
 }

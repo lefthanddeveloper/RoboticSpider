@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class ButtonObj : MonoBehaviour
 {
     public GameObject nextStage;
     // Start is called before the first frame update
