@@ -28,19 +28,21 @@ namespace RoboticSpider
 
 
         public float followSpeed = 2.0f;
-        private float cameraStateSwitchSpeed = 10.0f;
+        private float cameraStateSwitchSpeed = 15.0f;
         private Player player;
         private Transform playerTr;
-        // private Vector3 offset;
-        private Vector3 originalRotation;
+        private Vector3 localOffset;
+        private Vector3 localRotation;
 
+        public Transform cameraPivotTr;
         // Start is called before the first frame update
         void Start()
         {
             player = FindObjectOfType<Player>();
             playerTr = player.transform;
-            // offset = playerTr.position - transform.position;
-            originalRotation = transform.eulerAngles;
+
+            localOffset = transform.localPosition;
+            localRotation = transform.localEulerAngles;
         }
 
         // Update is called once per frame
@@ -48,7 +50,11 @@ namespace RoboticSpider
         {
             if (cameraState == CameraState.Standard)
             {
-                // transform.position = Vector3.Lerp(transform.position, playerTr.position -offset, followSpeed * Time.deltaTime);
+                //transform.position = Vector3.Lerp(transform.position, playerTr.position - offset, followSpeed * Time.deltaTime);
+                cameraPivotTr.position = Vector3.Lerp(cameraPivotTr.position, playerTr.position, followSpeed * Time.deltaTime);
+
+                cameraPivotTr.rotation = Quaternion.Lerp(cameraPivotTr.rotation, playerTr.rotation, followSpeed * Time.deltaTime);
+                
             }
             else
             {
@@ -79,7 +85,7 @@ namespace RoboticSpider
             {
                 if (!isSwitching)
                 {
-                    StartCoroutine(Switch(player.PovTr, () =>
+                    StartCoroutine(Switch(newState, () =>
                     {
                         onCameraSwitched?.Invoke(newState);
                         isSwitching = false;
@@ -90,34 +96,43 @@ namespace RoboticSpider
             {
                 if (!isSwitching)
                 {
-                    StartCoroutine(Switch(player.StandardTr, () =>
-                    {
-                        onCameraSwitched?.Invoke(newState);
-                        isSwitching = false;
-                    }));
-                }
+					StartCoroutine(Switch(newState, () =>
+					{
+						onCameraSwitched?.Invoke(newState);
+						isSwitching = false;
+					}));
+
+
+
+				}
             }
         }
 
         private bool isSwitching;
-        IEnumerator Switch(Transform newCameraState, Action completed)
+        IEnumerator Switch(CameraState newCameraState, Action completed)
         {
-            isSwitching = true;
-            float distance = float.MaxValue;
-
-            while (distance > 0.05f)
-            {
-                yield return null;
-                transform.position = Vector3.Lerp(transform.position, newCameraState.position, cameraStateSwitchSpeed * Time.deltaTime);
-                distance = Mathf.Abs(Vector3.Distance(transform.position, newCameraState.position));
+			yield return null;
+			isSwitching = true;
+            if(newCameraState == CameraState.Standard)
+			{
+                transform.SetParent(cameraPivotTr);
+                transform.localPosition = localOffset;
+                transform.localEulerAngles = localRotation;
             }
-
-            transform.SetParent(newCameraState);
-            transform.localPosition = Vector3.zero;
-            transform.localEulerAngles = Vector3.zero;
-
+            else if(newCameraState == CameraState.POV)
+			{
+                float distance = float.MaxValue;
+                while (distance > 0.02f)
+                {
+                    yield return null;
+                    transform.position = Vector3.Lerp(transform.position, player.PovTr.position, cameraStateSwitchSpeed * Time.deltaTime);
+                    distance = Mathf.Abs(Vector3.Distance(transform.position, player.PovTr.position));
+                }
+                transform.SetParent(player.PovTr);
+                transform.localPosition = Vector3.zero;
+                transform.localEulerAngles = Vector3.zero;
+            }
             completed?.Invoke();
-
         }
     }
 }
