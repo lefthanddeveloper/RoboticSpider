@@ -22,47 +22,37 @@ namespace RoboticSpider
 
 		Vector3 stepNormal = Vector3.zero;
 		public Vector3 StepNormal => stepNormal;
-        //Mover mover;
+        Mover mover;
         private void Start() {
             stickPosition = transform.position;
             climableLayer = LayerMask.GetMask("Climable");
 
-            //mover = GetComponentInParent<Mover>();
+            mover = GetComponentInParent<Mover>();
         }
 
 
-        public float stepRadius = 0.25f;
+        private float sphereCastRadius = 0.04f;
         void Update()
         {
             transform.position = stickPosition;
 
-			Debug.DrawRay(targetTr.position + new Vector3(0, 1, 0) * raycastingOriginHeight, -targetTr.up, Color.red);
-			if (Physics.Raycast(targetTr.position + new Vector3(0, 1, 0) * raycastingOriginHeight, -targetTr.up, out RaycastHit raycastHit, 3.0f, climableLayer))
+			// Debug.DrawRay(targetTr.position + new Vector3(0, 1, 0) * raycastingOriginHeight, -targetTr.up, Color.red);
+			Vector3 rayDir = (targetTr.position + mover.transform.TransformDirection(mover.movingVelocity) * 0.02f) - poleTr.position;
+			Debug.DrawRay(poleTr.position, rayDir.normalized, Color.green);
+			// if (Physics.Raycast(poleTr.position, rayDir.normalized, out RaycastHit raycastHit, rayDir.magnitude * 2.0f, climableLayer))
+			// {
+			// 	targetTr.position = raycastHit.point;
+			// 	stepNormal = raycastHit.normal;
+			// }
+
+			
+			
+			if(Physics.SphereCast(poleTr.position, sphereCastRadius, rayDir.normalized, out RaycastHit raycastHit, Mathf.Infinity, climableLayer))	
 			{
 				targetTr.position = raycastHit.point;
 				stepNormal = raycastHit.normal;
 			}
-
-			//if (mover.GetGlobalVelocity() != Vector3.zero)
-			//{
-			//             Vector3 dir = (targetTr.position + mover.GetGlobalVelocity()) - (targetTr.position + targetTr.up * 2.0f);
-
-			//             if (Physics.SphereCast(targetTr.position + targetTr.up * 2.0f, stepRadius, dir,out RaycastHit raycastHit, dir.magnitude * 2, climableLayer))
-			//	{
-			//                 Debug.DrawRay(targetTr.position + targetTr.up * 2.0f, dir, Color.red);
-			//                 _isMoving = true;
-			//                 stickPosition = targetTr.position;
-			//	}
-			//             else
-			//	{
-			//                 _isMoving = false;
-			//	}
-			//}
-			//         else
-			//{
-			//             _isMoving = false;
-			//}
-
+	
 
 			float distance = Mathf.Abs(Vector3.Distance(transform.position, targetTr.position));
 			if (distance >= movingThreshold && !crossLeg.isMoving)
@@ -74,6 +64,11 @@ namespace RoboticSpider
 			{
 				_isMoving = false;
 			}
+		}
+
+		private void OnDrawGizmos() {
+			Gizmos.DrawSphere(targetTr.position, sphereCastRadius);
+			Gizmos.color = Color.black;
 		}
     }
 

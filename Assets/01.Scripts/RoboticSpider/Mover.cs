@@ -13,14 +13,12 @@ namespace RoboticSpider
 		[SerializeField] private Transform[] targetPoses;
 
 		[SerializeField] private Transform earth;
-		//private float gravity = -9.81f;
 
 		LayerMask climableLayer;
 		Rigidbody rigid;
+		Vector3 movingDir;
+		public Vector3 movingVelocity => movingDir * movingSpeed;
 
-		//Vector3 curPos;
-		//Vector3 prePos;
-		//Vector3 movingVelocity;
 		private void Start()
 		{
 			climableLayer = LayerMask.GetMask("Climable");
@@ -34,31 +32,17 @@ namespace RoboticSpider
 			float vertical = Input.GetAxisRaw("Vertical");
 			//Rotation
 			float horizontal = Input.GetAxisRaw("Horizontal");
-
-			if (vertical != 0 || horizontal != 0)
+			
+			movingDir = new Vector3(0, 0, vertical);
+			// if (vertical != 0 || horizontal != 0)
 			{
 
 				transform.Translate(Vector3.forward * vertical * movingSpeed * Time.deltaTime);
 				transform.Rotate(transform.up * horizontal * rotatingSpeed, Space.World);
 				
-				transform.position = new Vector3(transform.position.x, GetAverageHeight(), transform.position.z);
+				// transform.position = new Vector3(transform.position.x, GetAverageHeight(), transform.position.z);
 			}
-
-
-
-			//curPos = transform.position;
-			//movingVelocity = curPos - prePos;
-			//prePos = curPos;
-
-
-
-			//Vector3 diffFront = (legTips[1].transform.position - legTips[0].transform.position).normalized;
-			//float angleInRad = Mathf.Atan2(diffFront.y, diffFront.x);
-			//float angleInDeg = Mathf.Rad2Deg * angleInRad;
-			//print(angleInDeg);
-
-
-	
+				
 		}
 
 		private void CalculateOrientation()
@@ -68,37 +52,33 @@ namespace RoboticSpider
 			Vector3 a, b, c; //a: normal from TargetPos to Mover Body
 							//b: normal from TargetPos to CrossTip TargetPos;
 							//c: Cross Project of a and b;
+
+			float avgDistance = 0;
 			for(int i=0; i<legTips.Length;i++)
 			{
+				//orientation
 				targetPosForEach = legTips[i].targetTr.position;
 				a = (transform.position - targetPosForEach).normalized;
 				b = (legTips[i].crossLeg.targetTr.position - targetPosForEach).normalized;
 				c = Vector3.Cross(a, b);
 
-				up += c * 0.1f + (legTips[i].StepNormal == Vector3.zero ? transform.forward : legTips[i].StepNormal);
+				up += c * 0.5f + (legTips[i].StepNormal == Vector3.zero ? transform.forward : legTips[i].StepNormal);
+
+				//distance from ground
+				avgDistance += transform.InverseTransformPoint(targetPosForEach).y;
 			}
 
+
 			up /= legTips.Length;
+			avgDistance /= legTips.Length;
 
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up), 1.0f * Time.deltaTime);
-
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up), 3.0f * Time.deltaTime);
+			transform.Translate(0, avgDistance*0.5f, 0, Space.Self);
 		}
 		
 
-		//public Vector3 GetGlobalVelocity()
-		//{
-		//	return movingVelocity;
-		//}
-
 		private float GetAverageHeight()
 		{
-			//float sum = 0;
-			//for(int i=0; i< legTips.Length;i++)
-			//{
-			//	sum += legTips[i].transform.position.y;
-			//}
-			//return sum/legTips.Length;
-
 			float sum = 0;
 			for (int i = 0; i < targetPoses.Length; i++)
 			{
