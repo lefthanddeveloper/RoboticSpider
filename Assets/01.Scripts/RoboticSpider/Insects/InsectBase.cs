@@ -9,10 +9,10 @@ namespace RoboticSpider
     {
         [SerializeField] protected Animator[] animators;
 
-		Rigidbody rigidbody;
+		Rigidbody rigid;
 		private void Start()
 		{
-			rigidbody = GetComponent<Rigidbody>();
+			rigid = GetComponent<Rigidbody>();
 		}
 
 		private void OnCollisionEnter(Collision collision)

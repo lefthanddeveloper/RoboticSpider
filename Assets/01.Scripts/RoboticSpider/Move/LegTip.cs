@@ -104,7 +104,8 @@ namespace RoboticSpider
 			}
 			else
 			{
-				targetTr.Translate(0, -1 * Time.deltaTime, 0, Space.World); //gravity; prevent floating up
+				targetTr.Translate(0, -0.2f * Time.deltaTime, 0, Space.World); //gravity; prevent floating up
+				// targetTr.position = targetTr.position;
 			}
 
 			float distance = Mathf.Abs(Vector3.Distance(transform.position, targetTr.position));
@@ -156,26 +157,26 @@ namespace RoboticSpider
 		//}
 
 		private void OnDrawGizmos() {
-			//Gizmos.color = Color.cyan;
-			//Gizmos.DrawWireSphere(targetTr.position, sphereCastRadius);
+			// Gizmos.color = Color.cyan;
+			// Gizmos.DrawWireSphere(targetTr.position, sphereCastRadius);
 
-			//Gizmos.color = Color.blue;
-			//Gizmos.DrawLine(restingPosition, worldTarget);
+			// Gizmos.color = Color.blue;
+			// Gizmos.DrawLine(poleTr.position, targetTr.position);
 
-			//Gizmos.color = Color.yellow;
-			//Gizmos.DrawLine(worldTarget, stepPoint);
+			// Gizmos.color = Color.yellow;
+			// Gizmos.DrawLine(poleTr.position, transform.position);
 
-			//Gizmos.color = Color.blue;
-			//Gizmos.DrawWireSphere(restingPosition, 0.1f);
+			// Gizmos.color = Color.blue;
+			// Gizmos.DrawWireSphere(restingPosition, 0.1f);
 
-			//Gizmos.color = Color.cyan;
-			//Gizmos.DrawWireSphere(worldTarget, 0.1f);
+			// Gizmos.color = Color.cyan;
+			// Gizmos.DrawWireSphere(worldTarget, 0.1f);
 
-			//Gizmos.color = Color.red;
-			//Gizmos.DrawWireSphere(stepPoint, .1f);
+			// Gizmos.color = Color.red;
+			// Gizmos.DrawWireSphere(stepPoint, .1f);
 
-			//Gizmos.color = Color.black;
-			//Gizmos.DrawWireSphere(poleTr.position, sphereCastRadius);
+			// Gizmos.color = Color.black;
+			// Gizmos.DrawWireSphere(poleTr.position, sphereCastRadius);
 		}
     }
 

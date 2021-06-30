@@ -87,8 +87,6 @@ namespace RoboticSpider
 
 			transform.Translate(Vector3.forward * vertical * movingSpeed * Time.deltaTime);
 			transform.Rotate(transform.up * horizontal * rotatingSpeed, Space.World);
-
-
 		}
 
 		private void CalculateOrientation()

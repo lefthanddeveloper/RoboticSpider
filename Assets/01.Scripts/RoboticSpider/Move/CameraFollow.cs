@@ -53,6 +53,9 @@ namespace RoboticSpider
                 //transform.position = Vector3.Lerp(transform.position, playerTr.position - offset, followSpeed * Time.deltaTime);
                 cameraPivotTr.position = Vector3.Lerp(cameraPivotTr.position, playerTr.position, followSpeed * Time.deltaTime);
 
+
+                // Quaternion destQuaternion = Quaternion.Euler(cameraPivotTr.eulerAngles.x, playerTr.eulerAngles.y, cameraPivotTr.eulerAngles.z);
+                // cameraPivotTr.rotation = Quaternion.Lerp(cameraPivotTr.rotation, destQuaternion, 10.0f * Time.deltaTime);
                 cameraPivotTr.rotation = Quaternion.Lerp(cameraPivotTr.rotation, playerTr.rotation, followSpeed * Time.deltaTime);
                 
             }

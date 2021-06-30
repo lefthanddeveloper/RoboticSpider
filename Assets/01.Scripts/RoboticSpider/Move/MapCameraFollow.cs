@@ -31,7 +31,14 @@ namespace RoboticSpider
         void Update()
         {
             //transform.position = Vector3.Lerp(transform.position,  player.transform.TransformPoint(player.transform.position) - offset, followSpeed * Time.deltaTime);
-            transform.position = /*transform.position +*/ player.transform.position +  q * -offset;
+            transform.position =  Vector3.Lerp(transform.position , player.transform.position - player.transform.TransformVector(offset), followSpeed * Time.deltaTime);
+
+            transform.LookAt(player.transform.position + new Vector3(0, 1.5f,0),Vector3.up);
+            // Quaternion destQuaternion = Quaternion.Euler(transform.eulerAngles.x, player.transform.eulerAngles.y, transform.eulerAngles.z);
+            // transform.rotation = Quaternion.Lerp(transform.rotation, destQuaternion, followSpeed * Time.deltaTime);
+
+
+
             //cameraPivotTr.LookAt(new Vector3(player.transform.position.x, cameraPivotTr.position.y, player.transform.position.z));
             //transform.rotation = Quaternion.Lerp(transform.rot)
             

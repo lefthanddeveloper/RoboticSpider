@@ -34,7 +34,7 @@ namespace RoboticSpider
         {
             LineInit();
 
-            StartCoroutine(ShowSpider(3.0f));
+            StartCoroutine(ShowSpider(1.75f));
         }
 
         IEnumerator ShowSpider(float time)
@@ -65,11 +65,13 @@ namespace RoboticSpider
         private void StartButtonEventInit()
         {
             startBtn.pointerEnterEvent.AddListener(()=>{
+                if(isStartBtnClicked) return;
                 startBtn.GetComponent<Image>().color = enterColor;
                 lineRenderer.material.color = enterColor;
             });
 
             startBtn.pointerExitEvent.AddListener(()=>{
+                if(isStartBtnClicked) return;
                 startBtn.GetComponent<Image>().color = normalColor;
                 lineRenderer.material.color = normalColor;
             });
@@ -87,7 +89,7 @@ namespace RoboticSpider
         private void OnStartBtnClick()
         {   
             isStartBtnClicked= true;
-            startBtn.transform.DOMoveY(-300.0f, 2.0f).SetEase(Ease.InCubic).OnComplete(()=>{
+            startBtn.transform.DOMoveY(-300.0f, 1f).SetEase(Ease.InCubic).OnComplete(()=>{
                 ChangeScene();
             });
         }

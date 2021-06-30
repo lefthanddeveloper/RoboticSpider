@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 namespace RoboticSpider
 {
@@ -68,6 +69,11 @@ namespace RoboticSpider
 		{
 			panel_InputGuideBtn.SetActive(true);
 			panel_InputGuide.SetActive(false);
+		}
+
+		public void ClickDevLogButtonEvent()
+		{
+			SceneManager.LoadScene("Devlog");
 		}
 
 
