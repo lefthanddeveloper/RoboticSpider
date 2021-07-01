@@ -148,8 +148,9 @@ namespace RoboticSpider
 			up /= legTips.Length;
 			avgDistance /= legTips.Length;
 
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up), 50.0f * Time.deltaTime);
-			//transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up);
+			
+			// transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up), 50.0f * Time.deltaTime);
+			transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up);
 			transform.Translate(0, avgDistance * 0.5f, 0, Space.Self);
 		}
 

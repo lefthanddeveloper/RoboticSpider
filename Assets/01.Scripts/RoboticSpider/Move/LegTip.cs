@@ -60,6 +60,8 @@ namespace RoboticSpider
 		Vector3 stepNormal = Vector3.zero;
 		public Vector3 StepNormal => stepNormal;
         Mover mover;
+
+		Vector3 dirToEarth;
         private void Start() {
             stickPosition = transform.position;
             //climableLayer = LayerMask.GetMask("Climable");
@@ -69,6 +71,7 @@ namespace RoboticSpider
 			//Step();
 
             mover = GetComponentInParent<Mover>();
+			dirToEarth = Vector3.zero - transform.position;
         }
 
 		private float sphereCastRadius = 0.08f;
@@ -105,14 +108,15 @@ namespace RoboticSpider
 			else
 			{
 				targetTr.Translate(0, -0.2f * Time.deltaTime, 0, Space.World); //gravity; prevent floating up
-				// targetTr.position = targetTr.position;
+				print(-0.2f * Time.deltaTime);
+				// targetTr.position = Vector3.MoveTowards(targetTr.position, Vector3.zero, Time.deltaTime);
 			}
 
 			float distance = Mathf.Abs(Vector3.Distance(transform.position, targetTr.position));
 			if (distance >= movingThreshold && !crossLeg.isMoving)
 			{
 				_isMoving = true;
-				stickPosition = Vector3.Lerp(stickPosition, targetTr.position, 0.8f);
+				stickPosition = Vector3.Lerp(stickPosition, targetTr.position, 1f);
 			}
 			else
 			{
