@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
+  m_IndirectSpecularColor: {r: 0.17444488, g: 0.21009506, b: 0.25434992, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -147,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38135791}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.171, y: 0.3, z: -0.181}
+  m_LocalPosition: {x: -0.171, y: 0.415, z: -0.181}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1146383951}
@@ -188,8 +188,8 @@ Transform:
   - {fileID: 505339498}
   - {fileID: 1899186736}
   - {fileID: 119694221}
-  m_Father: {fileID: 6601776401457633355}
-  m_RootOrder: 2
+  m_Father: {fileID: 1881563891}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &65855593
 GameObject:
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   climableLayer:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 128
   targetTr: {fileID: 424898024}
   poleTr: {fileID: 1927541318}
   movingThreshold: 0.25
@@ -2073,7 +2073,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694973483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.175, y: 0.3, z: 0.182}
+  m_LocalPosition: {x: -0.175, y: 0.415, z: 0.182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1146383951}
@@ -2424,7 +2424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   climableLayer:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 128
   targetTr: {fileID: 637160159}
   poleTr: {fileID: 1851499207}
   movingThreshold: 0.33
@@ -3030,7 +3030,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146383950}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3039,7 +3039,7 @@ Transform:
   - {fileID: 38135792}
   - {fileID: 1927541318}
   m_Father: {fileID: 4989477511548412}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1150121281
 GameObject:
@@ -3284,7 +3284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   climableLayer:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 128
   targetTr: {fileID: 1143093628}
   poleTr: {fileID: 694973484}
   movingThreshold: 0.33
@@ -3998,7 +3998,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851499206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.19, y: 0.3, z: 0.18}
+  m_LocalPosition: {x: 0.19, y: 0.415, z: 0.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1146383951}
@@ -4128,6 +4128,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6601776401457633355}
+  - {fileID: 61209907}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4251,7 +4252,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927541317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.191, y: 0.3, z: -0.182}
+  m_LocalPosition: {x: 0.191, y: 0.415, z: -0.182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1146383951}
@@ -4302,7 +4303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   climableLayer:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 128
   targetTr: {fileID: 1253940699}
   poleTr: {fileID: 38135792}
   movingThreshold: 0.25
@@ -4415,7 +4416,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4989477511548412}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 18.913, y: 0, z: 0}
 --- !u!1 &1997621008
 GameObject:
@@ -5922,8 +5923,8 @@ Transform:
   - {fileID: 4292918200839838}
   - {fileID: 1413058467}
   - {fileID: 889704644}
-  - {fileID: 1146383951}
   - {fileID: 1996464197}
+  - {fileID: 1146383951}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6311,7 +6312,6 @@ Transform:
   m_Children:
   - {fileID: 1164793726}
   - {fileID: 387738510}
-  - {fileID: 61209907}
   m_Father: {fileID: 1881563891}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

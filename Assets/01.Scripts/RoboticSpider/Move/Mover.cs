@@ -85,53 +85,27 @@ namespace RoboticSpider
 
 			CalculateOrientation();
 
+			if (noLegsOnGround) return;
 			transform.Translate(Vector3.forward * vertical * movingSpeed * Time.deltaTime);
 			transform.Rotate(transform.up * horizontal * rotatingSpeed, Space.World);
 		}
 
+		bool noLegsOnGround = false;
 		private void CalculateOrientation()
 		{
-			//Vector3 up = Vector3.zero;
-			//float avgSurfaceDist = 0;
-			//grounded = false;
-			//Vector3 point, a, b, c;
-
-			//for(int i=0; i<legTips.Length;i++)
-			//{
-			//	point = legTips[i].stepPoint;
-			//	avgSurfaceDist += transform.InverseTransformPoint(point).y;
-			//	a = (transform.position - point).normalized;
-			//	b = ((legTips[i].crossLeg.stepPoint) - point).normalized;
-			//	c = Vector3.Cross(a, b);
-			//	up += c * 0.5f + (legTips[i].StepNormal == Vector3.zero ? transform.forward : legTips[i].StepNormal);
-			//	grounded |= legTips[i].legGrounded;
-			//}
-
-			//up /= legTips.Length;
-			//avgSurfaceDist /= legTips.Length;
-
-
-			//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up), 22.5f * Time.deltaTime);
-			//if(grounded)
-			//{
-			//	transform.Translate(0, avgSurfaceDist * 0.5f, 0, Space.Self);
-			//}
-			//else
-			//{
-			//	transform.Translate(0, -3f * Time.deltaTime, 0, Space.World);
-			//}
-
-
 			Vector3 up = Vector3.zero;
 			Vector3 targetPosForEach;
 			Vector3 a, b, c; //a: normal from TargetPos to Mover Body
 							 //b: normal from TargetPos to CrossTip TargetPos;
 							 //c: Cross Project of a and b;
+			int upCount = 0;
 
 			float avgDistance = 0;
-
+			int numOfGroundedLegs = 0;
 			for (int i = 0; i < legTips.Length; i++)
 			{
+				if (!legTips[i].isGrounded) continue;
+
 				//orientation
 				targetPosForEach = legTips[i].targetTr.position;
 				a = (transform.position - targetPosForEach).normalized;
@@ -139,19 +113,38 @@ namespace RoboticSpider
 				c = Vector3.Cross(a, b);
 
 				up += c * 0.5f + (legTips[i].StepNormal == Vector3.zero ? transform.forward : legTips[i].StepNormal);
+				upCount++;
 
 				//distance from ground
+				numOfGroundedLegs++;
 				avgDistance += transform.InverseTransformPoint(targetPosForEach).y;
+				//if (legTips[i].isGrounded) 
+				//{
+				//	numOfGroundedLegs++;
+				//	avgDistance += transform.InverseTransformPoint(targetPosForEach).y;
+				//}
 			}
 
+			if (upCount == 0 || numOfGroundedLegs == 0)
+			{
+				print("upcount : " + upCount);
+				print("numOfGroundedELg : " + numOfGroundedLegs);
+				noLegsOnGround = true;
+				return;
+			}
+			//up /= legTips.Length;
+			//avgDistance /= legTips.Length;
+			//print("upCount : " + upCount);
+			up /= upCount;
+			transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up);
 
-			up /= legTips.Length;
-			avgDistance /= legTips.Length;
+			//print("num of Grounded Legs: " + numOfGroundedLegs);
+			avgDistance /= numOfGroundedLegs;
+			transform.Translate(0, avgDistance * 0.5f, 0, Space.Self);
+			noLegsOnGround = false;
 
 			
 			// transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up), 50.0f * Time.deltaTime);
-			transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, up), up);
-			transform.Translate(0, avgDistance * 0.5f, 0, Space.Self);
 		}
 
 		//private Vector3 CalculateLegVeloicty(int index)

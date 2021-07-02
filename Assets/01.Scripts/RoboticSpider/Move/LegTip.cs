@@ -50,6 +50,8 @@ namespace RoboticSpider
         private Vector3 stickPosition;
         private bool _isMoving;
         public bool isMoving => _isMoving;
+		private bool _isGrounded;
+		public bool isGrounded => _isGrounded;
         
         public Transform targetTr;
         public Transform poleTr;
@@ -86,7 +88,7 @@ namespace RoboticSpider
 			transform.position = stickPosition;
 
 
-			Vector3 rayDir = (targetTr.position + mover.transform.TransformDirection(mover.movingVelocity) * 0.05f) - poleTr.position;
+			Vector3 rayDir = (targetTr.position + mover.transform.TransformDirection(mover.movingVelocity.normalized) * 0.05f) - poleTr.position;
 
 			// print("rayDir : " + rayDir);
 			//Debug.DrawRay(poleTr.position, rayDir.normalized, Color.green);
@@ -100,15 +102,45 @@ namespace RoboticSpider
 			// }
 
 			//Spherecast 방식
-			if (Physics.SphereCast(poleTr.position, sphereCastRadius, rayDir.normalized, out RaycastHit raycastHit, 0.5f, climableLayer))
+			if (Physics.SphereCast(poleTr.position, sphereCastRadius, rayDir.normalized, out RaycastHit raycastHit, rayDir.magnitude*1.5f, climableLayer))
 			{
+				_isGrounded = true;
 				targetTr.position = raycastHit.point;
 				stepNormal = raycastHit.normal;
 			}
 			else
 			{
-				targetTr.Translate(0, -0.2f * Time.deltaTime, 0, Space.World); //gravity; prevent floating up
-				print(-0.2f * Time.deltaTime);
+				//targetTr.position = Vector3.Lerp(targetTr.position, crossLeg.transform.position, Time.deltaTime);
+				_isGrounded = false;
+
+				Vector3 dir = Vector3.zero - poleTr.position;
+				if (Physics.SphereCast(poleTr.position, sphereCastRadius, dir.normalized, out RaycastHit raycastHit2, dir.magnitude*1.5f, climableLayer))
+				{
+					print("candidate 1");
+					//targetTr.Translate(0, -0.2f * Time.deltaTime, 0, Space.World);
+					targetTr.position = Vector3.Lerp(targetTr.position, raycastHit.point, 0.5f * Time.deltaTime);
+				}
+				else
+				{
+					print("candidate 2");
+					float radius = sphereCastRadius * 2;
+					Collider[] colls = { };
+					print("enter");
+					while (colls.Length == 0)
+					{
+						colls = Physics.OverlapSphere(targetTr.position, radius, climableLayer);
+						radius += sphereCastRadius / 2;
+						print("radius : " + radius);
+					}
+					Vector3 closestPoint = colls[0].ClosestPointOnBounds(targetTr.position);
+					print(colls[0].gameObject.name);
+					print("out");
+
+					targetTr.position = closestPoint;
+					print("closest : " + closestPoint);
+
+				}
+				//targetTr.Translate(0, -0.2f * Time.deltaTime, 0, Space.World); //gravity; prevent floating up
 				// targetTr.position = Vector3.MoveTowards(targetTr.position, Vector3.zero, Time.deltaTime);
 			}
 
@@ -124,6 +156,24 @@ namespace RoboticSpider
 			}
 		}
 
+		//IEnumerator FindClosestPoint(Vector3 origianlRayDir)
+		//{
+		//	bool found =false;
+		//	float initialRadius = sphereCastRadius / 2;
+		//	while (!found)
+		//	{
+		//		RaycastHit[] hits = Physics.SphereCastAll(transform.position, initialRadius, -origianlRayDir.normalized * 0.001f, climableLayer);
+		//		if(hits.Length ==0)
+		//		{
+		//			initialRadius += sphereCastRadius / 2;
+		//			continue;
+		//		}
+
+		//		targetTr.position = hits[0].point;
+
+		//	}
+
+		//}
 		//private void UpdateIKTarget()
 		//{
 		//	stepPoint = AdjustPosition(worldTarget + worldVelocity);
@@ -161,11 +211,11 @@ namespace RoboticSpider
 		//}
 
 		private void OnDrawGizmos() {
-			// Gizmos.color = Color.cyan;
-			// Gizmos.DrawWireSphere(targetTr.position, sphereCastRadius);
+			Gizmos.color = Color.cyan;
+			Gizmos.DrawWireSphere(targetTr.position, sphereCastRadius);
 
-			// Gizmos.color = Color.blue;
-			// Gizmos.DrawLine(poleTr.position, targetTr.position);
+			Gizmos.color = Color.blue;
+			Gizmos.DrawLine(poleTr.position, targetTr.position);
 
 			// Gizmos.color = Color.yellow;
 			// Gizmos.DrawLine(poleTr.position, transform.position);
